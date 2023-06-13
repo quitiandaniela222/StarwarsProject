@@ -1,29 +1,3 @@
-
-async function infoPeople() {
-    try {
-        const completeInfo = await fetch('https://swapi.dev/api/people/',
-            { method: 'GET' });
-        const jsonFresh = await completeInfo.json();
-        const resultsInfo = jsonFresh.results;
-        const arrayInfoComplete = resultsInfo.map((result) => {
-            return {
-                name: result.name,
-                height: result.height,
-                gender: result.gender,
-                mass: result.mass,
-                species: result.hair_color,
-                "birth_year": result['birth_year']
-            }
-        });
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-infoPeople();
-const PAGE_SIZE = 10; 
-let currentPage = 1;
-
 async function displayInfo() {
     const response = await fetch('https://swapi.dev/api/people/');
     const data = await response.json();
@@ -62,7 +36,6 @@ async function displayInfo() {
         card.appendChild(eye_color);
 
         document.body.appendChild(card);
-        
 
         const image = document.createElement("img");
         if (character.gender === "male") {
@@ -80,7 +53,13 @@ async function displayInfo() {
         }
         card.appendChild(image);
     });
+
+    const button = document.getElementById("see-more");
+let page = 1;
+button.addEventListener('click', async () => {
+    await page(`https://swapi.dev/api/people/?page=${page}`);
+    page++;
+})
 }
 displayInfo();
-document.body.appendChild(card);
 
